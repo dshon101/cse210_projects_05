@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Scripture
 {
@@ -11,13 +12,7 @@ public class Scripture
     {
         _reference = reference;
         _random = new Random();
-        _words = new List<Word>();
-
-        string[] splitText = text.Split(" ");
-        foreach (string word in splitText)
-        {
-            _words.Add(new Word(word));
-        }
+        _words = text.Split(" ").Select(w => new Word(w)).ToList();
     }
 
     public void Display()
@@ -35,22 +30,18 @@ public class Scripture
 
     public void HideRandomWords(int count)
     {
-        for (int i = 0; i < count; i++)
+        List<Word> visibleWords = _words.Where(w => !w.IsHidden()).ToList();
+
+        for (int i = 0; i < count && visibleWords.Count > 0; i++)
         {
-            int index = _random.Next(_words.Count);
-            _words[index].Hide();
+            int index = _random.Next(visibleWords.Count);
+            visibleWords[index].Hide();
+            visibleWords.RemoveAt(index);
         }
     }
 
     public bool IsCompletelyHidden()
     {
-        foreach (Word word in _words)
-        {
-            if (!word.IsHidden())
-            {
-                return false;
-            }
-        }
-        return true;
+        return _words.All(w => w.IsHidden());
     }
 }
