@@ -40,17 +40,16 @@ class Program
         {
             sign = "+";
         }
-        else if (lastDigit < 3 && lastDigit != 0)
+        else if (lastDigit < 3 && percentage != 100)
         {
             sign = "-";
         }
 
         // Making sure that it does not assign A+ or F-
-        if (letter == "A" && sign == "+")
+        if (letter == "A" && sign == "+" && percentage == 100)
         {
             sign = ""; // No A+
         }
-
         if (letter == "F")
         {
             sign = ""; // No F+ or F-
