@@ -40,7 +40,7 @@ class Program
         {
             sign = "+";
         }
-        else if (lastDigit < 3)
+        else if (lastDigit < 3 && lastDigit != 0)
         {
             sign = "-";
         }
